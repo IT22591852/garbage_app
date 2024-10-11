@@ -17,6 +17,13 @@ import goalOnboardScreen3 from '../../Screens/goalOnboardScreen3';
 import goalOnboardScreen4 from '../../Screens/goalOnboardScreen4'; 
 import setGoalScreen from '../../Screens/setGoalScreen';
 import displayGoal from '../../Screens/displayGoal';
+import Home from '../../Screens/Home';
+import Order from '../../Screens/Order';
+import NormalRequest from '../../Screens/NormalRequest';
+import SpecialRequest from '../../Screens/SpecialRequest';
+import Schedule from '../../Screens/Schedule';
+import User from '../../Screens/User';
+
 
 //we want to declare for stack it contains all loading screens
 const Stack=createNativeStackNavigator();
@@ -38,6 +45,12 @@ export default function HomeScreen() {
         <Stack.Screen name='goalOnboardScreen4' component={goalOnboardScreen4}/>  
         <Stack.Screen name='setGoalScreen' component={setGoalScreen}/>
         <Stack.Screen name='displayGoal' component={displayGoal}/>
+        <Stack.Screen name='Home' component={Home}/>
+        <Stack.Screen name='Order' component={Order}/>
+        <Stack.Screen name='Schedule' component={Schedule}/>
+        <Stack.Screen name='User' component={User}/>
+        <Stack.Screen name='NormalRequest' component={NormalRequest}/>
+        <Stack.Screen name='SpecialRequest' component={SpecialRequest}/>
 
       </Stack.Navigator>
     // </NavigationContainer> 

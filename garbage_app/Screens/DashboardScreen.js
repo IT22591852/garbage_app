@@ -18,6 +18,9 @@ export default function DashboardScreen({navigation}){
         //   }
         // })
     }
+    const goToHome=()=>{
+      navigation.navigate('Home')
+    }
     const handleOnBoard=()=>{
         navigation.navigate('goalOnboardScreen1')
     }
@@ -25,6 +28,9 @@ export default function DashboardScreen({navigation}){
         //justify
     <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
        <Text style={{marginVertical:10}}>Welcome to dashboard</Text>
+       <TouchableOpacity style={styles.button} onPress={goToHome}>
+       <Text style={styles.buttonText}>Home</Text>
+       </TouchableOpacity>
        <TouchableOpacity style={styles.button} onPress={handlelogout}>
        <Text style={styles.buttonText}>Logout</Text>
       </TouchableOpacity>
@@ -43,6 +49,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#007BFF',
     borderRadius: 4,
+    margin: 10,
   },
   buttonText: {
     color: '#fff',
