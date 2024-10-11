@@ -9,15 +9,8 @@ export default function DashboardScreen({navigation}){
          .then(()=>{
           navigation.navigate('Login') //when user log out the page will navigate to login page 
          })
-        // onAuthStateChanged(auth,(user)=>{
-        //   if(user){
-        //     console.log('LoggedIn')
-        //     console.log(user)
-        //   }else {
-        //     console.log('Logged out')
-        //   }
-        // })
-    }
+        
+   }
     const goToHome=()=>{
       navigation.navigate('Home')
     }

@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import { Text, TouchableOpacity, View, TextInput, StyleSheet, Modal } from "react-native";
 import { useNavigation } from '@react-navigation/native';
-import axios from 'axios'; // Import Axios
+import axios from 'axios';
 
 export default function weeklyGoalScreen({ navigation }) {
-    const [modalVisible, setModalVisible] = useState(false);
+    const [customModalVisible, setCustomModalVisible] = useState(false);
+    const [lightModalVisible, setLightModalVisible] = useState(false);
+    const [moderateModalVisible, setModerateModalVisible] = useState(false);
+    const [heavyModalVisible, setHeavyModalVisible] = useState(false);
+
     const [glassWastage, setGlassWastage] = useState('');
     const [plasticWastage, setPlasticWastage] = useState('');
     const [otherWastage, setOtherWastage] = useState('');
@@ -14,7 +18,28 @@ export default function weeklyGoalScreen({ navigation }) {
     };
 
     const handleCustomGoalPress = () => {
-        setModalVisible(true);
+        setCustomModalVisible(true); // Open custom modal
+    };
+
+    const handleLightGoalPress = () => {
+        // Set default values for Light goal
+        setGlassWastage('5');
+        setPlasticWastage('7');
+        setOtherWastage('10');
+        setLightModalVisible(true); // Open light modal
+    };
+    const handleModerateGoalPress = () => {
+        setGlassWastage('10');
+        setPlasticWastage('15');
+        setOtherWastage('20');
+        setModerateModalVisible(true);
+    };
+
+    const handleHeavyGoalPress = () => {
+        setGlassWastage('15');
+        setPlasticWastage('20');
+        setOtherWastage('25');
+        setHeavyModalVisible(true);
     };
 
     const handleAddGoal = async () => {
@@ -22,26 +47,27 @@ export default function weeklyGoalScreen({ navigation }) {
             console.log('Please fill in all fields');
             return;
         }
-    
+
         try {
             const response = await axios.post('http://172.20.10.2:5000/goals', {
                 glassWastage: parseFloat(glassWastage),
                 plasticWastage: parseFloat(plasticWastage),
                 otherWastage: parseFloat(otherWastage)
             });
-    
-            console.log('Response data:', response.data); // Log the response data
-    
+
+            console.log('Response data:', response.data); 
+
             if (response.status === 201) {
                 console.log('Goal added successfully:', response.data);
-                // Clear form after successful submission
                 setGlassWastage('');
                 setPlasticWastage('');
                 setOtherWastage('');
-                setModalVisible(false); // Close modal after submission
-                
-                // Access the ID correctly
-                navigation.navigate('displayGoal', { goalId: response.data.id }); 
+                setCustomModalVisible(false);
+                setLightModalVisible(false);
+                setModerateModalVisible(false);
+                setHeavyModalVisible(false);
+
+                navigation.navigate('displayGoal', { goalId: response.data.id });
             } else {
                 console.log('Failed to add goal:', response.data);
             }
@@ -50,12 +76,46 @@ export default function weeklyGoalScreen({ navigation }) {
         }
     };
     
+    const handleAddGoal2 = async () => {
+        if (!glassWastage || !plasticWastage || !otherWastage) {
+            console.log('Please fill in all fields');
+            return;
+        }
+
+        try {
+            const response = await axios.post('http://172.20.10.2:5000/goals', {
+                glassWastage: parseFloat(glassWastage),
+                plasticWastage: parseFloat(plasticWastage),
+                otherWastage: parseFloat(otherWastage)
+            });
+
+            console.log('Response data:', response.data); 
+
+            if (response.status === 201) {
+                console.log('Goal added successfully:', response.data);
+                setGlassWastage('');
+                setPlasticWastage('');
+                setOtherWastage('');
+                setCustomModalVisible(false);
+                setLightModalVisible(false);
+                setModerateModalVisible(false);
+                setHeavyModalVisible(false);
+
+                navigation.navigate('displayGoal2', { goalId: response.data.id });
+            } else {
+                console.log('Failed to add goal:', response.data);
+            }
+        } catch (error) {
+            console.log('Error adding goal:', error.message);
+        }
+    };
     
 
     return (
         <View style={styles.container}>
             {/* Header */}
             <View style={styles.header}>
+                <Image source={require('../assets/images/eco_r.png')} style={styles.logo} />
                 <TouchableOpacity onPress={navigateBack}>
                     <Text style={styles.headerText}>{"<"} Set Your Weekly Goals</Text>
                 </TouchableOpacity>
@@ -70,21 +130,23 @@ export default function weeklyGoalScreen({ navigation }) {
             <View style={styles.goalSettings}>
                 <Text style={styles.goalTitle}>Set Your Weekly Goal</Text>
                 <View style={styles.goalButtons}>
-                    <TouchableOpacity style={styles.goalButton}><Text>Light</Text></TouchableOpacity>
-                    <TouchableOpacity style={styles.goalButton}><Text>Moderate</Text></TouchableOpacity>
-                    <TouchableOpacity style={styles.goalButton}><Text>Heavy</Text></TouchableOpacity>
-                    <TouchableOpacity style={styles.goalButton} onPress={handleCustomGoalPress}><Text>Custom Goal</Text></TouchableOpacity>
+                    <TouchableOpacity style={styles.goalButton} onPress={handleLightGoalPress}><Text>Light</Text></TouchableOpacity>
+                    <TouchableOpacity style={styles.goalButton} onPress={handleModerateGoalPress}><Text>Moderate</Text></TouchableOpacity>
+                    <TouchableOpacity style={styles.goalButton} onPress={handleHeavyGoalPress}><Text>Heavy</Text></TouchableOpacity>
+                    <TouchableOpacity style={styles.goalButton} onPress={handleCustomGoalPress}>
+                        <Text>Custom Goal</Text>
+                    </TouchableOpacity>
                 </View>
 
-                <TouchableOpacity style={styles.saveButton}><Text>Add Goal</Text></TouchableOpacity>
+                {/* <TouchableOpacity style={styles.saveButton}><Text>Add Goal</Text></TouchableOpacity> */}
             </View>
 
-            {/* Modal for the form */}
+            {/* Custom Goal Modal */}
             <Modal
                 animationType="slide"
                 transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => setModalVisible(false)}
+                visible={customModalVisible}
+                onRequestClose={() => setCustomModalVisible(false)}
             >
                 <View style={styles.modalOverlay}>
                     <View style={styles.modalContainer}>
@@ -123,161 +185,171 @@ export default function weeklyGoalScreen({ navigation }) {
                         <TouchableOpacity style={styles.addButton} onPress={handleAddGoal}>
                             <Text style={styles.addButtonText}>Add Goal</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => setModalVisible(false)}>
+                        <TouchableOpacity onPress={() => setCustomModalVisible(false)}>
                             <Text style={styles.cancelButtonText}>Cancel</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
             </Modal>
 
-            <View style={styles.bottomNav}>
-                <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('HomeScreen')}>
-                    <Text style={styles.navIcon}>🏠</Text>
-                    <Text style={styles.navButtonText}>Home</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('goalProgresScreen')}>
-                    <Text style={styles.navIcon}>📊</Text>
-                    <Text style={styles.navButtonText}>Progress</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('NotificationsScreen')}>
-                    <Text style={styles.navIcon}>🔔</Text>
-                    <Text style={styles.navButtonText}>Notifications</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('ProfileScreen')}>
-                    <Text style={styles.navIcon}>👤</Text>
-                    <Text style={styles.navButtonText}>Profile</Text>
-                </TouchableOpacity>
-            </View>
+            {/* Light Goal Modal */}
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={lightModalVisible}
+                onRequestClose={() => setLightModalVisible(false)}
+            >
+                <View style={styles.modalOverlay}>
+                    <View style={styles.modalContainer}>
+                        <Text style={styles.modalTitle}>Light Goal</Text>
+                        
+                        {/* Display default values */}
+                        <Text style={styles.inputLabel}>Glass Wastage: 5kg</Text>
+                        <Text style={styles.inputLabel}>Plastic Wastage: 7kg</Text>
+                        <Text style={styles.inputLabel}>Other Wastage: 10kg</Text>
+
+                        <TouchableOpacity style={styles.addButton} onPress={handleAddGoal2}>
+                            <Text style={styles.addButtonText}>Confirm Goal</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => setLightModalVisible(false)}>
+                            <Text style={styles.cancelButtonText}>Cancel</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={moderateModalVisible}
+                onRequestClose={() => setModerateModalVisible(false)}
+            >
+                <View style={styles.modalOverlay}>
+                    <View style={styles.modalContainer}>
+                        <Text style={styles.modalTitle}>Moderate Goal</Text>
+                        
+                        {/* Display default values */}
+                        <Text style={styles.inputLabel}>Glass Wastage: 10kg</Text>
+                        <Text style={styles.inputLabel}>Plastic Wastage: 15kg</Text>
+                        <Text style={styles.inputLabel}>Other Wastage: 20kg</Text>
+
+                        <TouchableOpacity style={styles.addButton} onPress={handleAddGoal2}>
+                            <Text style={styles.addButtonText}>Confirm Goal</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => setModerateModalVisible(false)}>
+                            <Text style={styles.cancelButtonText}>Cancel</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
+
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={heavyModalVisible}
+                onRequestClose={() => setHeavyModalVisible(false)}
+            >
+                <View style={styles.modalOverlay}>
+                    <View style={styles.modalContainer}>
+                        <Text style={styles.modalTitle}>Heavy Goal</Text>
+                        
+                        {/* Display default values */}
+                        <Text style={styles.inputLabel}>Glass Wastage: 15kg</Text>
+                        <Text style={styles.inputLabel}>Plastic Wastage: 20kg</Text>
+                        <Text style={styles.inputLabel}>Other Wastage: 25kg</Text>
+
+                        <TouchableOpacity style={styles.addButton} onPress={handleAddGoal2}>
+                            <Text style={styles.addButtonText}>Confirm Goal</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => setHeavyModalVisible(false)}>
+                            <Text style={styles.cancelButtonText}>Cancel</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
+
+
+        <View style={styles.bottomNavigation}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("AdminProductsScreen")}
+        >
+          <Image
+            source={require("../assets/images/home.png")}
+            style={styles.navIcon}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Image
+            source={require("../assets/images/calendar.png")}
+            style={styles.navIcon}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Collection")}>
+          <Image
+            source={require("../assets/images/cargo-truck-g.png")}
+            style={styles.navIcon}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Image
+            source={require("../assets/images/alarm.png")}
+            style={styles.navIcon}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("AccountScreen")}>
+          <Image
+            source={require("../assets/images/profile.png")}
+            style={styles.navIcon}
+          />
+        </TouchableOpacity>
+      </View>
         </View>
     );
 }
 
-
 const styles = StyleSheet.create({
-    container: { 
-        flex: 1, 
-        backgroundColor: 'white' 
-    },
-    header: { 
-        flexDirection: 'row', 
-        justifyContent: 'space-between', 
-        padding: 16, 
-        backgroundColor: '#32CD32' 
-    },
-    headerText: { 
-        color: 'white', 
-        fontSize: 20 
-    },
-    userWelcome: { 
-        position: 'absolute', 
-        top: 16, 
-        right: 16, 
-        color: 'white' 
-    },
-    userName: { 
-        position: 'absolute', 
-        top: 36, 
-        right: 16, 
-        color: 'white', 
-        fontWeight: 'bold' 
-    },
-    imageSpace: { 
-        flex: 1, 
-    },
-    goalSettings: { 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        flex: 1, 
-        padding: 16, 
-        backgroundColor: '#DCDCDC',
-        borderRadius: 10, 
-        margin: 16 
-    },
-    goalTitle: { 
-        fontSize: 24, 
-        textAlign: 'center', 
-        marginBottom: 16 
-    },
-    goalButtons: { 
-        flexDirection: 'column', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        marginBottom: 16, 
-        width: '100%' 
-    },
-    goalButton: { 
-        padding: 10, 
-        backgroundColor: '#F0F0F0', 
-        borderRadius: 5, 
-        width: '80%', 
-        marginBottom: 10, 
-        alignItems: 'center'
-    },
-    modalOverlay: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
-    },
-    modalContainer: {
-        width: '80%',
-        padding: 20,
-        backgroundColor: 'white',
-        borderRadius: 10,
-        alignItems: 'center',
-    },
-    modalTitle: {
-        fontSize: 20,
-        marginBottom: 20,
-    },
-    input: {
-        borderColor: '#ccc',
-        borderWidth: 1,
-        padding: 10,
-        borderRadius: 5,
-        marginBottom: 10,
-        width: '100%',
-    },
-    addButton: {
-        backgroundColor: '#32CD32',
-        padding: 10,
-        borderRadius: 5,
-        alignItems: 'center',
-        marginBottom: 10,
-    },
-    addButtonText: {
-        color: 'white',
-        fontSize: 16,
-    },
-    cancelButtonText: {
-        color: 'red',
-        fontSize: 16,
-    },
-    saveButton: { 
-        backgroundColor: '#D3D3D3', 
-        padding: 10, 
-        borderRadius: 8, 
-        alignSelf: 'center', 
-        marginBottom: 100 
-    },
-    bottomNav: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        backgroundColor: '#32CD32',
-        padding: 16,
-        position: 'absolute',
-        bottom: 0,
-        width: '100%',
-    },
-    navButton: {
-        alignItems: 'center',
-    },
+    // Add your styles here
+    
+    container: { flex: 1, backgroundColor: 'white' },
+    logo: {
+        width: 40,
+        height: 40,
+        marginRight: 10,
+      },
+    header: { flexDirection: 'row',alignItems: 'center', justifyContent: 'space-between', padding: 15, backgroundColor:"#027148" },
+    headerText: {
+        fontSize: 18,
+        fontWeight: "bold",
+        color: "#fff",
+        textAlign: "right",
+        marginRight: 10,
+      },
+    userWelcome: { position: 'absolute', top: 16, right: 16, color: 'white' },
+    userName: { position: 'absolute', top: 36, right: 16, color: 'white', fontWeight: 'bold' },
+    imageSpace: { flex: 1 },
+    goalSettings: { justifyContent: 'center', alignItems: 'center', flex: 1, padding: 16, backgroundColor: '#DCDCDC', borderRadius: 10, margin: 16 },
+    goalTitle: { fontSize: 24, textAlign: 'center', marginBottom: 16 },
+    goalButtons: { flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginBottom: 16, width: '100%' },
+    goalButton: { padding: 10, backgroundColor: '#F0F0F0', borderRadius: 5, width: '80%', marginBottom: 10, alignItems: 'center' },
+    modalOverlay: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' },
+    modalContainer: { width: '80%', padding: 20, backgroundColor: 'white', borderRadius: 10, alignItems: 'center' },
+    modalTitle: { fontSize: 20, marginBottom: 20 },
+    input: { borderWidth: 1, borderColor: 'gray', padding: 10, marginBottom: 10, width: '100%' },
+    inputLabel: { marginBottom: 5, fontWeight: 'bold' },
+    addButton: { padding: 10, backgroundColor: '#32CD32', borderRadius: 5, width: '100%', alignItems: 'center', marginTop: 10 },
+    addButtonText: { color: 'white', fontWeight: 'bold' },
+    cancelButtonText: { marginTop: 10, color: 'red', fontWeight: 'bold' },
+    bottomNavigation: {
+        flexDirection: "row",
+        justifyContent: "space-around",
+        paddingVertical: 10,
+        backgroundColor: "#93E9BE",
+      },
+    navButton: { alignItems: 'center' },
     navIcon: {
-        fontSize: 24,
-    },
-    navButtonText: {
-        fontSize: 12,
-        color: 'white',
-    },
+        width: 30,
+        height: 30,
+      },
+    navButtonText: { fontSize: 12 },
+    saveButton: { padding: 10, backgroundColor: '#32CD32', borderRadius: 5, alignItems: 'center', marginTop: 20, width: '100%' }
 });
 

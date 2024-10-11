@@ -1,91 +1,110 @@
 import { useEffect, useState } from "react";
-import {Text,View,TextInput,StyleSheet, Button,TouchableOpacity} from "react-native";
-// import {createUserWithEmailAndPassword} from 'firebase/auth';
-import { signInWithEmailAndPassword,onAuthStateChanged } from "firebase/auth";
+import {Text,View,TextInput,StyleSheet, Button,TouchableOpacity, ImageBackground} from "react-native";
+import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import {auth} from '../Services/firebaseAuth';
-// import AsyncStorage from "@react-native-async-storage/async-storage";
-
-// import { View } from "react-native-reanimated/lib/typescript/Animated";
 
 export default function LoginScreen({navigation}) {
-  const [email,setEmail]=useState('')
+  const [email,setEmail]=useState('');
   const [password,setPassword]=useState('');
-  //state for displaying the error
   const [error,setError]=useState('');
 
   const checkIfLoggedIn=()=>{
       onAuthStateChanged(auth,(user)=>{
            if(user){
-           navigation.navigate('Dashboard')
+           navigation.navigate('Dashboard');
            }
-         })
-  }
+         });
+  };
 
   useEffect(()=>{
-    checkIfLoggedIn()
-  },[])
+    checkIfLoggedIn();
+  },[]);
 
   const handleLogin=()=>{
     setError(''); //set error to null
-    // console.log(email,password);
     signInWithEmailAndPassword(auth,email,password)
     .then((userCredentials)=>{
       const user=userCredentials.user;
       console.log(user);
-      navigation.navigate('Dashboard')
-      //local storage asyn storage
-      // AsyncStorage.setItem("user",JSON.stringify(user))
+      navigation.navigate('Dashboard');
     })
     .catch((error)=>{
-      // console.log(error)
       setError(error.message);
-  })
-  }
+    });
+  };
 
   const goToRegister=()=>{
-    navigation.navigate('Register')
-  }
+    navigation.navigate('Register');
+  };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
-        <TextInput style={styles.input}
+    <ImageBackground 
+      source={require('../assets/images/eco_r.png')} // Path to your background image
+      style={styles.backgroundImage}
+    >
+      <View style={styles.overlay} />
+      <View style={styles.container}>
+        <Text style={styles.title}>Login</Text>
+        <TextInput 
+          style={styles.input}
           onChangeText={setEmail}
           placeholder="Email"
-          placeholderTextColor="#aaa"/>
+          placeholderTextColor="#aaa"
+        />
 
-        <TextInput style={styles.input}
+        <TextInput 
+          style={styles.input}
           onChangeText={setPassword}
           placeholder="Password"
           placeholderTextColor="#aaa"
-          secureTextEntry/>
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+          secureTextEntry
+        />
+        
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
           <Text style={styles.buttonText}>Login</Text>
-          </TouchableOpacity>
-      {error && <Text style={{color:"red"}}>{error}</Text>}
-      <Text onPress={goToRegister} style={{marginVertical:10}}>
-        Create an account? Register here
-      </Text>
-  </View>
-  )
+        </TouchableOpacity>
+
+        {error && <Text style={{color:"red"}}>{error}</Text>}
+
+        <Text onPress={goToRegister} style={styles.registerText}>
+          Create an account? Register here
+        </Text>
+      </View>
+    </ImageBackground>
+  );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  backgroundImage: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 16,
-    backgroundColor: '#f5f5f5',
+    width: '100%',
+    height: '100%',
+  },
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 128, 0, 0.4)', // Greenish overlay to match garbage management theme
+  },
+  container: {
+    width: '80%',
+    padding: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Slightly transparent white
+    borderRadius: 10,
+    alignItems: 'center',
   },
   title: {
     fontSize: 24,
-    fontWeight:"bold",
+    fontWeight: "bold",
     marginBottom: 24,
     color: '#333',
   },
   input: {
-    width: '80%',
+    width: '100%',
     height: 40,
     paddingHorizontal: 8,
     marginBottom: 16,
@@ -93,20 +112,23 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     borderRadius: 4,
     backgroundColor: '#fff',
-    
   },
   button: {
-    width: '50%',
+    width: '100%',
     height: 40,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#007BFF',
     borderRadius: 4,
+    marginBottom: 20,
   },
   buttonText: {
     color: '#fff',
     fontSize: 16,
   },
-
+  registerText: {
+    marginVertical: 10,
+    color: '#007BFF',
+  },
 });
- 
+

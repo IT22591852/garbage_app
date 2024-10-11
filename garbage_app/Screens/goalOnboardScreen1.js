@@ -1,8 +1,9 @@
 import React from "react";
-import { Text, TouchableOpacity, View, StyleSheet, Image } from "react-native";
+import { Text, TouchableOpacity, View, StyleSheet, Image, SafeAreaView } from "react-native";
 import auth from "../Services/firebaseAuth";
 import { signOut } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
+
 
 export default function goalOnboardScreen1({ navigation }) {
 
@@ -26,6 +27,7 @@ export default function goalOnboardScreen1({ navigation }) {
   }
 
   return (
+    
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity style={styles.button} onPress={handleLogout}>
@@ -59,7 +61,7 @@ export default function goalOnboardScreen1({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      <View style={styles.bottomNav}>
+      {/* <View style={styles.bottomNav}>
         <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('HomeScreen')}>
           <Text style={styles.navIcon}>🏠</Text>
           <Text style={styles.navButtonText}>Home</Text>
@@ -76,7 +78,7 @@ export default function goalOnboardScreen1({ navigation }) {
           <Text style={styles.navIcon}>👤</Text>
           <Text style={styles.navButtonText}>Profile</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
     </View>
   );
 }
@@ -119,34 +121,35 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   largeImage: {
-    width: '95%',         
+    width: '99%',         
     height: '50%',         
     resizeMode: 'cover',   
     marginTop: 10,        
   },
   card: {
-    marginTop: 15,
+    marginTop: 20,
     marginLeft: 20,
     marginRight: 20,
     borderColor: 'black',
-    borderWidth: 2,
-    borderRadius: 5,
+    borderWidth: 5,
+    borderRadius: 20,
     alignItems: 'center', 
   },
   content3: {
     marginTop: 10,
+    marginBottom: 20,
     fontSize: 18,
     color: 'grey',
     textAlign: 'center',   
-    paddingHorizontal: 10, 
+    paddingHorizontal: 20, 
   },
   buttonRow: {
     flexDirection: 'row',
     justifyContent: 'space-around', 
     position: 'absolute',
-    bottom: 85, // Increased space between buttonRow and bottomNav
+    bottom: 20, // Increased space between buttonRow and bottomNav
     width: '100%',
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
   },
   startbtn: {
     backgroundColor: '#55CA5C',

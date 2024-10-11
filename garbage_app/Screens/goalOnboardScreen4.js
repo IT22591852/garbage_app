@@ -59,7 +59,7 @@ export default function goalOnboardScreen4({ navigation }) {
         </TouchableOpacity> */}
       </View>
 
-      <View style={styles.bottomNav}>
+      {/* <View style={styles.bottomNav}>
         <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('HomeScreen')}>
           <Text style={styles.navIcon}>🏠</Text>
           <Text style={styles.navButtonText}>Home</Text>
@@ -76,7 +76,7 @@ export default function goalOnboardScreen4({ navigation }) {
           <Text style={styles.navIcon}>👤</Text>
           <Text style={styles.navButtonText}>Profile</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
 
     </View>
   );
@@ -126,28 +126,29 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   card: {
-    marginTop: 15,
+    marginTop: 20,
     marginLeft: 20,
     marginRight: 20,
     borderColor: 'black',
-    borderWidth: 2,
-    borderRadius: 5,
-    alignItems: 'center',
+    borderWidth: 5,
+    borderRadius: 20,
+    alignItems: 'center', 
   },
   content3: {
     marginTop: 10,
+    marginBottom: 20,
     fontSize: 18,
     color: 'grey',
-    textAlign: 'center',
-    paddingHorizontal: 10,
+    textAlign: 'center',   
+    paddingHorizontal: 20, 
   },
   buttonRow: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-around', 
     position: 'absolute',
-    bottom: 85,
+    bottom: 20, // Increased space between buttonRow and bottomNav
     width: '100%',
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
   },
   startbtn: {
     backgroundColor: '#55CA5C',

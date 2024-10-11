@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, TouchableOpacity, View, Image, StyleSheet } from "react-native";
 import { BarChart } from 'react-native-chart-kit';
+import  { useNavigation } from '@react-navigation/native';
 
 export default function goalProgresScreen({ navigation }) {
 

@@ -60,7 +60,7 @@ export default function goalOnboardScreen2({navigation}) {
                 </TouchableOpacity>
             </View>
 
-            <View style={styles.bottomNav}>
+            {/* <View style={styles.bottomNav}>
                 <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('HomeScreen')}>
                     <Text style={styles.navIcon}>🏠</Text>
                     <Text style={styles.navButtonText}>Home</Text>
@@ -77,7 +77,7 @@ export default function goalOnboardScreen2({navigation}) {
                     <Text style={styles.navIcon}>👤</Text>
                     <Text style={styles.navButtonText}>Profile</Text>
                 </TouchableOpacity>
-            </View>
+            </View> */}
         </View>
     );
 }
@@ -120,35 +120,36 @@ const styles=StyleSheet.create({
        textAlign:'center',
     },
     largeImage:{
-        width: '95%',         
+        width: '99%',         
         height: '50%',        
         resizeMode: 'cover',   
-        marginTop: 10,
+        marginTop: 0,
     },
-    card:{
-        marginTop: 15,
+    card: {
+        marginTop: 20,
         marginLeft: 20,
         marginRight: 20,
         borderColor: 'black',
-        borderWidth: 2,
-        borderRadius: 5,
-        alignItems: 'center',
-    },
-    content3:{
+        borderWidth: 5,
+        borderRadius: 20,
+        alignItems: 'center', 
+      },
+      content3: {
         marginTop: 10,
+        marginBottom: 20,
         fontSize: 18,
         color: 'grey',
-        textAlign: 'center',  
-        paddingHorizontal: 10,
-    },
-    buttonRow: {
+        textAlign: 'center',   
+        paddingHorizontal: 20, 
+      },
+      buttonRow: {
         flexDirection: 'row',
         justifyContent: 'space-around', 
         position: 'absolute',
-        bottom: 85, // Matches the spacing from goalOnboardScreen1
-        width: '100%',         
-        paddingHorizontal: 20,
-    },
+        bottom: 20, // Increased space between buttonRow and bottomNav
+        width: '100%',
+        paddingHorizontal: 10,
+      },
     startbtn: {
         backgroundColor: '#55CA5C',
         padding: 8,
