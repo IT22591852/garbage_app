@@ -22,7 +22,6 @@ export default function goalOnboardScreen4({ navigation }) {
   const weeklyGoalScreen = () => {
     navigation.navigate('weeklyGoalScreen')
   }
-
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -54,29 +53,8 @@ export default function goalOnboardScreen4({ navigation }) {
           <Text style={styles.startbtntxt}>Finish</Text>
         </TouchableOpacity>
 
-        {/* <TouchableOpacity style={styles.startbtn} onPress={weeklyGoalScreen}>
-          <Text style={styles.startbtntxt}>Skip</Text>
-        </TouchableOpacity> */}
       </View>
 
-      {/* <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('HomeScreen')}>
-          <Text style={styles.navIcon}>🏠</Text>
-          <Text style={styles.navButtonText}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('goalProgresScreen')}>
-          <Text style={styles.navIcon}>📊</Text>
-          <Text style={styles.navButtonText}>Progress</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('NotificationsScreen')}>
-          <Text style={styles.navIcon}>🔔</Text>
-          <Text style={styles.navButtonText}>Notifications</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('ProfileScreen')}>
-          <Text style={styles.navIcon}>👤</Text>
-          <Text style={styles.navButtonText}>Profile</Text>
-        </TouchableOpacity>
-      </View> */}
 
     </View>
   );

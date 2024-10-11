@@ -18,8 +18,8 @@ export default function goalOnboardScreen1({ navigation }) {
     navigation.navigate('goalOnboardScreen2')
   }
 
-  const goalProgresScreen = () => {
-    navigation.navigate('goalProgresScreen')
+  const DashboardScreen = () => {
+    navigation.navigate('Dashboard')
   }
 
   const weeklyGoalScreen = () => {
@@ -50,7 +50,7 @@ export default function goalOnboardScreen1({ navigation }) {
 
       {/* Added more space between buttonRow and bottomNav */}
       <View style={styles.buttonRow}>
-        <TouchableOpacity style={styles.startbtn} onPress={goalProgresScreen}>
+        <TouchableOpacity style={styles.startbtn} onPress={DashboardScreen}>
           <Text style={styles.startbtntxt}>Back</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.startbtn} onPress={goalOnboardScreen2}>
@@ -60,25 +60,6 @@ export default function goalOnboardScreen1({ navigation }) {
           <Text style={styles.startbtntxt}>Skip</Text>
         </TouchableOpacity>
       </View>
-
-      {/* <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('HomeScreen')}>
-          <Text style={styles.navIcon}>🏠</Text>
-          <Text style={styles.navButtonText}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('goalProgresScreen')}>
-          <Text style={styles.navIcon}>📊</Text>
-          <Text style={styles.navButtonText}>Progress</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('NotificationsScreen')}>
-          <Text style={styles.navIcon}>🔔</Text>
-          <Text style={styles.navButtonText}>Notifications</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('ProfileScreen')}>
-          <Text style={styles.navIcon}>👤</Text>
-          <Text style={styles.navButtonText}>Profile</Text>
-        </TouchableOpacity>
-      </View> */}
     </View>
   );
 }

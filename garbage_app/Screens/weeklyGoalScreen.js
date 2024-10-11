@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Text, TouchableOpacity, View, TextInput, StyleSheet, Modal,Image,ScrollView} from "react-native";
+import { Text, TouchableOpacity, View, TextInput, StyleSheet, Modal,Image,ScrollView,SafeAreaView} from "react-native";
 // import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import Header from "./Header";
+import Footer from "./Footer";
 
 export default function weeklyGoalScreen({ navigation }) {
     const [customModalVisible, setCustomModalVisible] = useState(false);
@@ -258,6 +259,7 @@ export default function weeklyGoalScreen({ navigation }) {
                      </View>
                     </View>
                 </Modal>
+                <Footer/>
             </ScrollView>
         </SafeAreaView>
     );
@@ -286,7 +288,7 @@ const styles = StyleSheet.create({
     userWelcome: { position: 'absolute', top: 16, right: 16, color: 'white' },
     userName: { position: 'absolute', top: 36, right: 16, color: 'white', fontWeight: 'bold' },
     imageSpace: { flex: 1 },
-    goalSettings: { justifyContent: 'center', alignItems: 'center', flex: 1, padding: 16, backgroundColor: '#DCDCDC', borderRadius: 10, margin: 16 },
+    goalSettings: { justifyContent: 'center', alignItems: 'center', flex: 1, padding: 15, backgroundColor: '#DCDCDC', borderRadius: 10, margin: 100 },
     goalTitle: { fontSize: 24, textAlign: 'center', marginBottom: 16 },
     goalButtons: { flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginBottom: 16, width: '100%' },
     goalButton: { padding: 10, backgroundColor: '#F0F0F0', borderRadius: 5, width: '80%', marginBottom: 10, alignItems: 'center' },
