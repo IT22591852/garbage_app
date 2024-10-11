@@ -8,7 +8,7 @@ const Footer = () => {
 
     // Navigation functions
     const goToHome = () => {
-        navigation.navigate('Home');
+        navigation.navigate('Dashboard');
     };
     const goToSchedule = () => {
         navigation.navigate('Schedule');

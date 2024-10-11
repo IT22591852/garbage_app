@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Text, TouchableOpacity, View, TextInput, StyleSheet, Modal } from "react-native";
-import { useNavigation } from '@react-navigation/native';
+import { Text, TouchableOpacity, View, TextInput, StyleSheet, Modal,Image,ScrollView} from "react-native";
+// import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
+import Header from "./Header";
 
 export default function weeklyGoalScreen({ navigation }) {
     const [customModalVisible, setCustomModalVisible] = useState(false);
@@ -112,19 +113,10 @@ export default function weeklyGoalScreen({ navigation }) {
     
 
     return (
-        <View style={styles.container}>
-            {/* Header */}
-            <View style={styles.header}>
-                <Image source={require('../assets/images/eco_r.png')} style={styles.logo} />
-                <TouchableOpacity onPress={navigateBack}>
-                    <Text style={styles.headerText}>{"<"} Set Your Weekly Goals</Text>
-                </TouchableOpacity>
-                <Text style={styles.userWelcome}>Hi, Welcome Back</Text>
-                <Text style={styles.userName}>John Doe</Text>
-            </View>
-
-            {/* Empty Space for Images */}
-            <View style={styles.imageSpace}></View>
+        <SafeAreaView style={styles.container}>
+            <ScrollView contentContainerStyle={styles.scrollContainer}>
+                <Header/>
+                    <View style={styles.imageSpace}></View>
 
             {/* Goal Title and Buttons */}
             <View style={styles.goalSettings}>
@@ -263,53 +255,21 @@ export default function weeklyGoalScreen({ navigation }) {
                         <TouchableOpacity onPress={() => setHeavyModalVisible(false)}>
                             <Text style={styles.cancelButtonText}>Cancel</Text>
                         </TouchableOpacity>
+                     </View>
                     </View>
-                </View>
-            </Modal>
-
-
-        <View style={styles.bottomNavigation}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate("AdminProductsScreen")}
-        >
-          <Image
-            source={require("../assets/images/home.png")}
-            style={styles.navIcon}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Image
-            source={require("../assets/images/calendar.png")}
-            style={styles.navIcon}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("Collection")}>
-          <Image
-            source={require("../assets/images/cargo-truck-g.png")}
-            style={styles.navIcon}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Image
-            source={require("../assets/images/alarm.png")}
-            style={styles.navIcon}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("AccountScreen")}>
-          <Image
-            source={require("../assets/images/profile.png")}
-            style={styles.navIcon}
-          />
-        </TouchableOpacity>
-      </View>
-        </View>
+                </Modal>
+            </ScrollView>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
     // Add your styles here
     
-    container: { flex: 1, backgroundColor: 'white' },
+    container:{
+         flex: 1, 
+         backgroundColor: 'white'
+    },
     logo: {
         width: 40,
         height: 40,
