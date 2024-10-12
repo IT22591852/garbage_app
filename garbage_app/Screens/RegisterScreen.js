@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {Text,View,TextInput,StyleSheet, Button,TouchableOpacity} from "react-native";
 import {createUserWithEmailAndPassword} from 'firebase/auth';
-import {auth} from '../Services/firebaseAuth';
+import {auth} from '../../Services/firebaseAuth';
 // import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // import { View } from "react-native-reanimated/lib/typescript/Animated";
@@ -12,7 +12,6 @@ export default function RegisterScreen({navigation}) {
   //state for displaying the error
   const [error,setError]=useState('');
 
-// Onclick function for register
   const handleRegister=()=>{
     setError('');
     // console.log(email,password);
@@ -20,7 +19,7 @@ export default function RegisterScreen({navigation}) {
     .then((userCredentials)=>{
       const user=userCredentials.user;
       console.log(user);
-      navigation.navigate('Dashboard');
+      navigation.navigate('Onboard');
       //local storage asyn storage
       // AsyncStorage.setItem("user",JSON.stringify(user))
     })
@@ -31,30 +30,29 @@ export default function RegisterScreen({navigation}) {
   }
 
   const goToLogin=()=>{
-    navigation.navigate('Login')
+    navigation.navigate('Loginscreen')
   }
 
   return (
-      <View style={styles.container}>
-        <Text style={styles.title}>RegisterScreen</Text>
-          <TextInput style={styles.input}
-              onChangeText={setEmail} //retrive to the setemail
-              placeholder="Email"
-              placeholderTextColor="#aaa"/>
-
-          <TextInput style={styles.input}
-              onChangeText={setPassword} //retrive to the setpassword
-              placeholder="Password"
-              placeholderTextColor="#aaa"
-              secureTextEntry/>
-      <TouchableOpacity style={styles.button} onPress={handleRegister}>
-          <Text style={styles.buttonText}>Register</Text>
-          </TouchableOpacity>
-        {error && <Text style={{color:"red"}}>{error}</Text>}
-        <Text onPress={goToLogin} style={{marginVertical:10}}>
-          Already have an account? Login here
-        </Text>
-      </View>
+    <View style={styles.container}>
+  <Text style={styles.title}>RegisterScreen</Text>
+  <TextInput style={styles.input}
+  onChangeText={setEmail}
+  placeholder="Email"
+  placeholderTextColor="#aaa"/>
+  <TextInput style={styles.input}
+  onChangeText={setPassword}
+   placeholder="Password"
+   placeholderTextColor="#aaa"
+   secureTextEntry/>
+   <TouchableOpacity style={styles.button} onPress={handleRegister}>
+       <Text style={styles.buttonText}>Register</Text>
+      </TouchableOpacity>
+  {error && <Text style={{color:"red"}}>{error}</Text>}
+   <Text onPress={goToLogin} style={{marginVertical:10}}>
+    Already have an account? Login here
+   </Text>
+  </View>
   )
 }
 

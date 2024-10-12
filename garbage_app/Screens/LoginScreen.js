@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import {Text,View,TextInput,StyleSheet, Button,TouchableOpacity} from "react-native";
-// import {createUserWithEmailAndPassword} from 'firebase/auth';
+import {Text,View,TextInput,StyleSheet, Button,TouchableOpacity,Image} from "react-native";
+import {createUserWithEmailAndPassword} from 'firebase/auth';
 import { signInWithEmailAndPassword,onAuthStateChanged } from "firebase/auth";
-import {auth} from '../Services/firebaseAuth';
+import {auth} from '../../Services/firebaseAuth';
+
 // import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // import { View } from "react-native-reanimated/lib/typescript/Animated";
@@ -16,7 +17,8 @@ export default function LoginScreen({navigation}) {
   const checkIfLoggedIn=()=>{
       onAuthStateChanged(auth,(user)=>{
            if(user){
-           navigation.navigate('Dashboard')
+            console.log('sdsd',user)
+           navigation.navigate('Onboard')
            }
          })
   }
@@ -26,13 +28,13 @@ export default function LoginScreen({navigation}) {
   },[])
 
   const handleLogin=()=>{
-    setError(''); //set error to null
+    setError('');
     // console.log(email,password);
     signInWithEmailAndPassword(auth,email,password)
     .then((userCredentials)=>{
       const user=userCredentials.user;
       console.log(user);
-      navigation.navigate('Dashboard')
+      navigation.navigate('Onboard')
       //local storage asyn storage
       // AsyncStorage.setItem("user",JSON.stringify(user))
     })
@@ -43,29 +45,31 @@ export default function LoginScreen({navigation}) {
   }
 
   const goToRegister=()=>{
-    navigation.navigate('Register')
+    navigation.navigate('Registerscreen')
   }
 
   return (
+    
     <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
-        <TextInput style={styles.input}
-          onChangeText={setEmail}
-          placeholder="Email"
-          placeholderTextColor="#aaa"/>
-
-        <TextInput style={styles.input}
-          onChangeText={setPassword}
-          placeholder="Password"
-          placeholderTextColor="#aaa"
-          secureTextEntry/>
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Login</Text>
-          </TouchableOpacity>
-      {error && <Text style={{color:"red"}}>{error}</Text>}
-      <Text onPress={goToRegister} style={{marginVertical:10}}>
-        Create an account? Register here
-      </Text>
+       <Image source={require('../../assets/images/recycle-log.png')}
+        style={styles.img1}/> 
+  <Text style={styles.title}>Login</Text>
+  <TextInput style={styles.input}
+  onChangeText={setEmail}
+  placeholder="Email"
+  placeholderTextColor="#aaa"/>
+  <TextInput style={styles.input}
+  onChangeText={setPassword}
+   placeholder="Password"
+   placeholderTextColor="#aaa"
+   secureTextEntry/>
+   <TouchableOpacity style={styles.button} onPress={handleLogin}>
+       <Text style={styles.buttonText}>Login</Text>
+      </TouchableOpacity>
+  {error && <Text style={{color:"red"}}>{error}</Text>}
+   <Text onPress={goToRegister} style={{marginVertical:10}}>
+    Create an account? Register here
+   </Text>
   </View>
   )
 }
@@ -75,38 +79,54 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 16,
-    backgroundColor: '#f5f5f5',
+    padding: 20,
+    backgroundColor: '#f8f8f8',
+  },
+  img1: {
+    width: 100,
+    height: 100,
+    marginBottom: 30,
   },
   title: {
-    fontSize: 24,
-    fontWeight:"bold",
-    marginBottom: 24,
+    fontSize: 28,
+    fontWeight: 'bold',
     color: '#333',
+    marginBottom: 20,
   },
   input: {
-    width: '80%',
-    height: 40,
-    paddingHorizontal: 8,
-    marginBottom: 16,
+    width: '100%',
+    height: 50,
+    borderColor: '#ddd',
     borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 4,
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    fontSize: 16,
+    marginBottom: 15,
     backgroundColor: '#fff',
-    
   },
   button: {
-    width: '50%',
-    height: 40,
+    width: '80%',
+    height: 50,
+    backgroundColor: '#007BFF',
+    borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#007BFF',
-    borderRadius: 4,
+    marginBottom: 10,
   },
   buttonText: {
     color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 14,
+    marginTop: 10,
+  },
+  registerText: {
+    color: '#007BFF',
+    marginVertical: 10,
     fontSize: 16,
   },
-
 });
  
